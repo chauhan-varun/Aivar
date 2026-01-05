@@ -17,7 +17,7 @@ export const useVapi = () => {
     setVapi(vapiInstance);
 
     vapiInstance.on("call-start", () => {
-      setIsConnecting(true);
+      setIsConnecting(false);
       setIsConnected(true);
       setTranscript([]);
     });
