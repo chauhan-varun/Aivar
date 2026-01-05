@@ -11,7 +11,7 @@ export const AuthGuard = ({ children }: { children: React.ReactNode }) => {
         <AuthLayout>Loading...</AuthLayout>
       </AuthLoading>
       <Authenticated>
-        <AuthLayout>{children}</AuthLayout>
+        {children}
       </Authenticated>
       <Unauthenticated>
         <AuthLayout>
