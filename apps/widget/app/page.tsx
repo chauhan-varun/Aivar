@@ -3,7 +3,12 @@ import { useVapi } from "@/modules/widget/hooks/use-vapi";
 import { Button } from "@workspace/ui/components/button";
 
 const Page = () => {
-  const { isConnected, isSpeaking, startCall, endCall, transcript } = useVapi();
+  const { isConnected, isConnecting, isSpeaking, startCall, endCall, transcript } = useVapi();
+  return (
+    <div className="flex items-center justify-center min-h-svh">
+      <Button onClick={() => startCall()} disabled={isConnecting || isConnected}>
+        {isConnecting ? "Connecting..." : "Start Call"}
+      </Button>
   return (
     <div className="flex items-center justify-center min-h-svh">
       <Button onClick={() => startCall()}>Start Call</Button>
