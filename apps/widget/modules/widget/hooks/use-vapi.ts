@@ -62,7 +62,7 @@ export const useVapi = () => {
     setIsConnecting(true);
 
     if (vapi) {
-      vapi.start("your-agent-id-here");
+      vapi.start(process.env.NEXT_PUBLIC_VAPI_AGENT_ID || "");
     }
   };
 
