@@ -5,6 +5,7 @@ node_modules
 .pnp
 .pnp.js
 
+.env.sentry-build-plugin
 # Local env files
 .env
 .env.local

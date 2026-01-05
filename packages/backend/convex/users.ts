@@ -16,6 +16,7 @@ export const ad = mutation({
     const ordId = identity.orgId as string;
 
     if (!ordId) throw new Error("Organization ID is required");
+    throw new Error("Test error from Convex mutation");
 
     return await ctx.db.insert("users", { name: "Alice" });
   },
