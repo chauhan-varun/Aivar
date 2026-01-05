@@ -9,6 +9,14 @@ export const getMany = query({
 export const ad = mutation({
   args: {},
   handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+
+    if (identity == null) throw new Error("Unauthorized");
+
+    const ordId = identity.orgId as string;
+
+    if (!ordId) throw new Error("Organization ID is required");
+
     return await ctx.db.insert("users", { name: "Alice" });
   },
 });
