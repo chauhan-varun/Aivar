@@ -11,9 +11,7 @@ export const OrganisationLayout = ({
   const { organization } = useOrganization();
   if (!organization) {
     return (
-      <AuthLayout>
         <OrgSelectView />
-      </AuthLayout>
     );
   }
   return <>{children}</>;

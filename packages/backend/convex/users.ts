@@ -9,7 +9,7 @@ export const getMany = query({
 export const ad = mutation({
   args: {},
   handler: async (ctx) => {
-    const identity = ctx.auth.getUserIdentity();
+    const identity = await ctx.auth.getUserIdentity();
 
     if (identity == null) throw new Error("Unauthorized");
 
