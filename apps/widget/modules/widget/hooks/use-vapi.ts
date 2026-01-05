@@ -13,7 +13,7 @@ export const useVapi = () => {
   const [isSpeaking, setIsSpeaking] = useState(false);
 
   useEffect(() => {
-    const vapiInstance = new Vapi("your-api-key-here");
+    const vapiInstance = new Vapi(process.env.NEXT_PUBLIC_VAPI_API_KEY || "");
     setVapi(vapiInstance);
 
     vapiInstance.on("call-start", () => {
