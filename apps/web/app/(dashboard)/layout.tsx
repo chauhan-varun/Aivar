@@ -1,12 +1,7 @@
-import { OrganisationLayout } from "@/modules/auth/ui/components/organisation-layout";
-import { AuthLayout } from "@/modules/auth/ui/layouts/auth-layout";
+import { DashboardLayout } from "@/modules/dashboard/ui/layout/dashboard-layout";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <AuthLayout>
-      <OrganisationLayout>{children}</OrganisationLayout>
-    </AuthLayout>
-  );
+  return <DashboardLayout>{children}</DashboardLayout>;
 };
 
 export default Layout;
