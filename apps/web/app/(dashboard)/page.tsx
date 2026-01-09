@@ -8,14 +8,16 @@ const TestPage = () => {
   const add = useMutation(api.users.ad);
   const user = useQuery(api.users.getMany);
   return (
-    <div>
-      <UserButton />
-      <OrganizationSwitcher />
-      <Button onClick={() => add()}>Test Convex</Button>
-      <div>
-        {user?.map((u) => (
-          <div key={u._id}>{u.name}</div>
-        ))}
+    <div className="flex min-h-screen items-center justify-center">
+      <div className="flex flex-col items-center gap-4">
+        <UserButton />
+        <OrganizationSwitcher />
+        <Button onClick={() => add()}>Test Convex</Button>
+        <div>
+          {user?.map((u) => (
+            <div key={u._id}>{u.name}</div>
+          ))}
+        </div>
       </div>
     </div>
   );
