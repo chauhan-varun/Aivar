@@ -1,10 +1,6 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "entryPoints": [
-    "./packages/math/src",
-    "./packages/ui/src",
-    "./packages/backend/convex"
-  ],
+  "entryPoints": ["./packages/math/src", "./packages/ui/src", "./packages/backend/convex"],
   "entryPointStrategy": "expand",
   "out": "./docs",
   "name": "Aivar Documentation",
@@ -20,4 +16,3 @@
   },
   "skipErrorChecking": true
 }
-

@@ -1,10 +1,10 @@
-"use client";
+'use client'
 
-import { WidgetFooter } from "../components/widget-footer";
-import { WidgetHeader } from "../components/widget-header";
+import { WidgetFooter } from '../components/widget-footer'
+import { WidgetHeader } from '../components/widget-header'
 
 interface props {
-  organizationId: string;
+  organizationId: string
 }
 
 export const WidgetView = ({ organizationId }: props) => {
@@ -19,5 +19,5 @@ export const WidgetView = ({ organizationId }: props) => {
       <div className="flex flex-1 ">Widget View: {organizationId}</div>
       <WidgetFooter />
     </main>
-  );
-};
+  )
+}

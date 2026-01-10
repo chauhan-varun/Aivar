@@ -5,16 +5,17 @@ A modern monorepo project built with Next.js, Convex, and shadcn/ui components. 
 ## Project Structure
 
 ### Apps
+
 - **web** - Main Next.js web application (port 3000)
   - Clerk authentication
   - Sentry error tracking
   - Built with Next.js 16 and React 19
-  
 - **widget** - Embeddable widget application (port 3001)
   - Vapi AI voice integration
   - Standalone Next.js app with turbopack
 
 ### Packages
+
 - **@workspace/backend** - Convex backend services
 - **@workspace/ui** - Shared UI components (shadcn/ui + Radix UI)
 - **@workspace/math** - Utility math functions
@@ -35,6 +36,7 @@ A modern monorepo project built with Next.js, Convex, and shadcn/ui components. 
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js >= 20
 - pnpm 10.27.0
 
@@ -81,7 +83,7 @@ Components are placed in `packages/ui/src/components` and shared across all apps
 Import components from the shared UI package:
 
 ```tsx
-import { Button } from "@workspace/ui/components/button"
+import { Button } from '@workspace/ui/components/button'
 ```
 
 ### Styling
@@ -106,6 +108,7 @@ pnpm setup
 ## Environment Setup
 
 Each app may require environment variables:
+
 - `apps/web` - Clerk keys, Sentry DSN
 - `apps/widget` - Vapi API keys
 - `packages/backend` - Convex deployment URL
