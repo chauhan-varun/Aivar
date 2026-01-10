@@ -16,10 +16,12 @@
     "check-types": {
       "dependsOn": ["^check-types"]
     },
+    "typecheck": {
+      "dependsOn": ["^typecheck"]
+    },
     "dev": {
       "cache": false,
       "persistent": true
     }
   }
 }
-

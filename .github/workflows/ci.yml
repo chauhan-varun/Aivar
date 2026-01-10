@@ -6,10 +6,15 @@ on:
   push:
     branches: [main, develop]
 
+env:
+  NEXT_PUBLIC_CONVEX_URL: ${{ secrets.NEXT_PUBLIC_CONVEX_URL }}
+  NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+
 jobs:
   quality:
     name: Code Quality
     runs-on: ubuntu-latest
+    environment: Testing
     
     steps:
       - name: Checkout
@@ -17,8 +22,6 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -43,3 +46,4 @@ jobs:
 
       - name: Generate docs
         run: pnpm generate-docs
+
