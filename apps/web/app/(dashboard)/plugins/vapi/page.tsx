@@ -1,5 +1,5 @@
 const Page = () => {
-  return <div>VAPI Plugin Page</div>
-}
+  return <div>VAPI Plugin Page</div>;
+};
 
-export default Page
+export default Page;

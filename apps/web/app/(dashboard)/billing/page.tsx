@@ -1,5 +1,5 @@
 const Page = () => {
-  return <div> Billing Page</div>
-}
+  return <div> Billing Page</div>;
+};
 
-export default Page
+export default Page;

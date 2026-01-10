@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import { Authenticated, AuthLoading, Unauthenticated } from 'convex/react'
-import { AuthLayout } from '../layouts/auth-layout'
-import { SignInView } from '../view/sign-in-view'
+import { Authenticated, AuthLoading, Unauthenticated } from "convex/react";
+import { AuthLayout } from "../layouts/auth-layout";
+import { SignInView } from "../view/sign-in-view";
 
 export const AuthGuard = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -10,12 +10,14 @@ export const AuthGuard = ({ children }: { children: React.ReactNode }) => {
       <AuthLoading>
         <AuthLayout>Loading...</AuthLayout>
       </AuthLoading>
-      <Authenticated>{children}</Authenticated>
+      <Authenticated>
+        {children}
+      </Authenticated>
       <Unauthenticated>
         <AuthLayout>
           <SignInView />
         </AuthLayout>
       </Unauthenticated>
     </>
-  )
-}
+  );
+};
