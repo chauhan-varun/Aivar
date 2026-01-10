@@ -1,0 +1,90 @@
+name: Security
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+jobs:
+  detect-secrets:
+    name: Detect Secrets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect secrets with TruffleHog
+        uses: trufflesecurity/trufflehog@main
+        with:
+          extra_args: --only-verified
+
+  dependency-audit:
+    name: Dependency Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Audit dependencies
+        run: pnpm audit --audit-level=high
+        continue-on-error: true
+
+  sensitive-files:
+    name: Sensitive Files Check
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for sensitive file changes
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const sensitivePatterns = [
+              /^\.env(?:\.\w+)?$/,
+              /\.pem$/,
+              /\.key$/,
+              /\.p12$/,
+              /\.pfx$/,
+              /secrets?\./i,
+              /credentials?\./i,
+              /password/i,
+            ];
+            
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            });
+            
+            const sensitiveFiles = files.filter(file => 
+              sensitivePatterns.some(pattern => pattern.test(file.filename))
+            );
+            
+            if (sensitiveFiles.length > 0) {
+              const fileList = sensitiveFiles.map(f => `- \`${f.filename}\``).join('\n');
+              core.warning(`⚠️ Sensitive files modified:\n${fileList}`);
+              
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: `## ⚠️ Sensitive Files Warning\n\nThe following sensitive files have been modified:\n\n${fileList}\n\nPlease ensure no secrets or credentials are being committed.`
+              });
+            }

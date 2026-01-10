@@ -1,5 +1,5 @@
-"use client";
-import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
+'use client'
+import { OrganizationSwitcher, UserButton } from '@clerk/nextjs'
 import {
   CreditCardIcon,
   InboxIcon,
@@ -7,9 +7,8 @@ import {
   LibraryBigIcon,
   Mic,
   PaletteIcon,
-} from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
+} from 'lucide-react'
+import Link from 'next/link'
 import {
   Sidebar,
   SidebarContent,
@@ -22,58 +21,58 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarRail,
-} from "@workspace/ui/components/sidebar";
+} from '@workspace/ui/components/sidebar'
 
-import { cn } from "@workspace/ui/lib/utils";
-import { usePathname } from "next/navigation";
+import { cn } from '@workspace/ui/lib/utils'
+import { usePathname } from 'next/navigation'
 
 const customerSupportItems = [
   {
-    title: "Conversations",
-    url: "/conversations",
+    title: 'Conversations',
+    url: '/conversations',
     icon: InboxIcon,
   },
   {
-    title: "Knowledge Base",
-    url: "/files",
+    title: 'Knowledge Base',
+    url: '/files',
     icon: LibraryBigIcon,
   },
-];
+]
 
 const configurationItems = [
   {
-    title: "Widget Costomization",
-    url: "/configuration",
+    title: 'Widget Costomization',
+    url: '/configuration',
     icon: PaletteIcon,
   },
   {
-    title: "Integrations",
-    url: "/integrations",
+    title: 'Integrations',
+    url: '/integrations',
     icon: LayoutDashboardIcon,
   },
   {
-    title: "Voice Assistant",
-    url: "/plugins/vapi",
+    title: 'Voice Assistant',
+    url: '/plugins/vapi',
     icon: Mic,
   },
-];
+]
 
 const accountItems = [
   {
-    title: "Plans & Billing",
-    url: "/billing",
+    title: 'Plans & Billing',
+    url: '/billing',
     icon: CreditCardIcon,
   },
-];
+]
 
 export const DashboardSidebar = () => {
-  const pathname = usePathname();
+  const pathname = usePathname()
   const isActive = (url: string) => {
-    if (url === "/") {
-      return pathname === "/";
+    if (url === '/') {
+      return pathname === '/'
     }
-    return pathname.startsWith(url);
-  };
+    return pathname.startsWith(url)
+  }
   return (
     <Sidebar className="group" collapsible="icon">
       <SidebarHeader>
@@ -85,12 +84,11 @@ export const DashboardSidebar = () => {
                 skipInvitationScreen
                 appearance={{
                   elements: {
-                    rootBox: "w-full! h-8!",
-                    avatarBox: "size-4! rounded-sm!",
+                    rootBox: 'w-full! h-8!',
+                    avatarBox: 'size-4! rounded-sm!',
                     organizationSwitcherTrigger:
                       "w-full! justify-start! group-data-[collapsible='icon']:size-8! group-data-[collapsible='icon']:p-2! ",
-                    organizationPreview:
-                      "group-data-[collapsible='icon']:justify-center! gap-2!",
+                    organizationPreview: "group-data-[collapsible='icon']:justify-center! gap-2!",
                     organizationPreviewTextContainer:
                       "group-data-[collapsible='icon']:hidden text-xs! font-medium! text-sidebar-foreground!",
                     organizationSwitcherTriggerIcon:
@@ -116,7 +114,7 @@ export const DashboardSidebar = () => {
                     isActive={isActive(item.url)}
                     className={cn(
                       isActive(item.url) &&
-                        " bg-gradient-to-b from-sidebar-primary to-[#0b63f3]! text-sidebar-primary-foreground! hover:to-[#0b63f3]/90!",
+                        ' bg-gradient-to-b from-sidebar-primary to-[#0b63f3]! text-sidebar-primary-foreground! hover:to-[#0b63f3]/90!'
                     )}
                     tooltip={item.title}
                   >
@@ -142,7 +140,7 @@ export const DashboardSidebar = () => {
                     isActive={isActive(item.url)}
                     className={cn(
                       isActive(item.url) &&
-                        " bg-gradient-to-b from-sidebar-primary to-[#0b63f3]! text-sidebar-primary-foreground! hover:to-[#0b63f3]/90!",
+                        ' bg-gradient-to-b from-sidebar-primary to-[#0b63f3]! text-sidebar-primary-foreground! hover:to-[#0b63f3]/90!'
                     )}
                     tooltip={item.title}
                   >
@@ -168,7 +166,7 @@ export const DashboardSidebar = () => {
                     isActive={isActive(item.url)}
                     className={cn(
                       isActive(item.url) &&
-                        " bg-gradient-to-b from-sidebar-primary to-[#0b63f3]! text-sidebar-primary-foreground! hover:to-[#0b63f3]/90!",
+                        ' bg-gradient-to-b from-sidebar-primary to-[#0b63f3]! text-sidebar-primary-foreground! hover:to-[#0b63f3]/90!'
                     )}
                     tooltip={item.title}
                   >
@@ -190,14 +188,13 @@ export const DashboardSidebar = () => {
               showName
               appearance={{
                 elements: {
-                  rootBox: "w-full! h-8!",
+                  rootBox: 'w-full! h-8!',
                   userButtonTrigger:
                     "w-full! p-2! hover:bg-sidebar-accent! hover:text-sidebar-foreground! group-data-[collapsible='icon']:size-8! group-data-[collapsible='icon']:p-2! ",
                   userButtonBox:
                     "w-full! flex-row-reverse! justify-end! gap-2! group-data-[collapsible='icon']:justify-center! text-sidebar-foreground!",
-                  userButtonOuterIdentifier:
-                    "pl-0! group-data-[collapsible='icon']:hidden!",
-                  avatarBox: "size-4! ",
+                  userButtonOuterIdentifier: "pl-0! group-data-[collapsible='icon']:hidden!",
+                  avatarBox: 'size-4! ',
                 },
               }}
             />
@@ -206,5 +203,5 @@ export const DashboardSidebar = () => {
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  );
-};
+  )
+}
