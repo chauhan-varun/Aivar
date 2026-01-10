@@ -1,0 +1,114 @@
+name: PR Quality
+
+on:
+  pull_request:
+    branches: [main, develop]
+    types: [opened, synchronize, reopened, edited]
+
+jobs:
+  pr-size:
+    name: PR Size Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR size
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            });
+            
+            const additions = pr.additions;
+            const deletions = pr.deletions;
+            const total = additions + deletions;
+            
+            let size = 'small';
+            let emoji = '🟢';
+            
+            if (total > 1000) {
+              size = 'extra-large';
+              emoji = '🔴';
+              core.warning(`This PR is very large (${total} lines). Consider breaking it into smaller PRs.`);
+            } else if (total > 500) {
+              size = 'large';
+              emoji = '🟠';
+              core.warning(`This PR is large (${total} lines). Consider if it can be split.`);
+            } else if (total > 200) {
+              size = 'medium';
+              emoji = '🟡';
+            }
+            
+            // Add size label
+            const sizeLabel = `size/${size}`;
+            try {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: [sizeLabel]
+              });
+            } catch (e) {
+              core.info(`Could not add label: ${e.message}`);
+            }
+            
+            console.log(`${emoji} PR Size: ${size} (+${additions} -${deletions})`);
+
+  pr-description:
+    name: PR Description Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR description
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: pr } = await github.rest.pulls.get({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            });
+            
+            const body = pr.body || '';
+            const minLength = 20;
+            
+            if (body.trim().length < minLength) {
+              core.setFailed(`PR description is too short. Please add a meaningful description (min ${minLength} characters).`);
+            }
+
+  lockfile-check:
+    name: Lock File Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check lock file changes
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+            });
+            
+            const packageJsonChanged = files.some(f => f.filename === 'package.json' || f.filename.endsWith('/package.json'));
+            const lockfileChanged = files.some(f => f.filename === 'pnpm-lock.yaml');
+            
+            if (packageJsonChanged && !lockfileChanged) {
+              core.warning('package.json was modified but pnpm-lock.yaml was not updated. Run `pnpm install` to update the lock file.');
+            }
+
+  conventional-commits:
+    name: Conventional Commits
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check commit messages
+        uses: wagoid/commitlint-github-action@v6
+        continue-on-error: true
