@@ -1,0 +1,23 @@
+# Dependencies
+node_modules
+pnpm-lock.yaml
+
+# Build outputs
+dist
+.next
+out
+build
+
+# Generated files
+*.generated.*
+*/_generated/*
+
+# Documentation (generated)
+docs
+
+# Cache
+.turbo
+.cache
+
+# Coverage
+coverage
