@@ -4,21 +4,25 @@ A modern monorepo project built with Next.js, Convex, and shadcn/ui components. 
 
 ## Project Structure
 
+This project uses [Turbo](https://turbo.build/) for monorepo management and follows a modular architecture.
+
 ### Apps
 
-- **web** - Main Next.js web application (port 3000)
-  - Clerk authentication
-  - Sentry error tracking
-  - Built with Next.js 16 and React 19
-- **widget** - Embeddable widget application (port 3001)
-  - Vapi AI voice integration
-  - Standalone Next.js app with turbopack
+- **web** (`apps/web`) - Main Next.js application
+  - Runs on `localhost:3000`
+  - Features a Dashboard and Clerk authentication
+  - Uses `modules` directory pattern for feature isolation (`auth`, `dashboard`)
+  - Integrated with Sentry for error tracking
+- **widget** (`apps/widget`) - Embeddable AI Voice Widget
+  - Runs on `localhost:3001`
+  - Powered by Vapi for voice AI
+  - Standalone Next.js app optimized with Turbopack
 
 ### Packages
 
-- **@workspace/backend** - Convex backend services
-- **@workspace/ui** - Shared UI components (shadcn/ui + Radix UI)
-- **@workspace/math** - Utility math functions
+- **@workspace/backend** (`packages/backend`) - Convex backend functions and schema
+- **@workspace/ui** (`packages/ui`) - Shared UI component library (shadcn/ui + Radix UI)
+- **@workspace/math** (`packages/math`) - Shared utility functions
 - **@workspace/eslint-config** - Shared ESLint configuration
 - **@workspace/typescript-config** - Shared TypeScript configuration
 
@@ -26,12 +30,11 @@ A modern monorepo project built with Next.js, Convex, and shadcn/ui components. 
 
 - **Framework**: Next.js 16 (React 19)
 - **Backend**: Convex
-- **UI**: shadcn/ui, Radix UI, Tailwind CSS v4
-- **Auth**: Clerk
+- **UI System**: Tailwind CSS v4, shadcn/ui, Radix UI
+- **Authentication**: Clerk
 - **Voice AI**: Vapi
 - **Monitoring**: Sentry
-- **Build**: Turbo (monorepo orchestration)
-- **Package Manager**: pnpm
+- **Package Manager**: pnpm (v10.27.0)
 
 ## Getting Started
 
@@ -46,20 +49,68 @@ A modern monorepo project built with Next.js, Convex, and shadcn/ui components. 
 # Install dependencies
 pnpm install
 
-# Start development servers
+# Setup Convex backend
+cd packages/backend
 pnpm dev
+# In a new terminal, run setup if needed
+pnpm setup
+```
+
+### Environment Setup
+
+Create `.env.local` files in the respective application directories.
+
+#### `apps/web/.env.local`
+
+```bash
+# Convex
+NEXT_PUBLIC_CONVEX_URL=
+
+# Clerk Auth
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+
+# Sentry (Optional for dev)
+SENTRY_DSN=
+SENTRY_ORG=
+SENTRY_PROJECT=
+SENTRY_AUTH_TOKEN=
+```
+
+#### `apps/widget/.env.local`
+
+```bash
+# Convex
+NEXT_PUBLIC_CONVEX_URL=
+
+# Vapi AI
+NEXT_PUBLIC_VAPI_API_KEY=
+NEXT_PUBLIC_VAPI_AGENT_ID=
+```
+
+#### `packages/backend/.env.local`
+
+```bash
+# Convex
+CONVEX_DEPLOYMENT=
+CONVEX_URL=
+
+# Clerk Integration
+CLERK_JWT_ISSUER_DOMAIN=
 ```
 
 ### Development
 
 ```bash
-# Run all apps in dev mode
+# Run all apps and packages in dev mode
 pnpm dev
 
-# Build all packages
+# Build all apps
 pnpm build
 
-# Lint all packages
+# Lint code
 pnpm lint
 
 # Format code
@@ -76,7 +127,7 @@ Add shadcn/ui components to the shared UI package:
 pnpm dlx shadcn@latest add button -c apps/web
 ```
 
-Components are placed in `packages/ui/src/components` and shared across all apps.
+Components are placed in `packages/ui/src/components` and exported for use across all apps.
 
 ### Using Components
 
@@ -86,29 +137,10 @@ Import components from the shared UI package:
 import { Button } from '@workspace/ui/components/button'
 ```
 
-### Styling
+## Documentation
 
-- Tailwind CSS v4 configured across all apps
-- Global styles in `packages/ui/src/styles/globals.css`
-- Theme support via `next-themes`
-
-## Backend Development
-
-The Convex backend is located in `packages/backend`:
+Documentation is generated using Typedoc and located in `docs/`. To generate:
 
 ```bash
-# Start Convex dev server
-cd packages/backend
-pnpm dev
-
-# Setup Convex
-pnpm setup
+pnpm generate-docs
 ```
-
-## Environment Setup
-
-Each app may require environment variables:
-
-- `apps/web` - Clerk keys, Sentry DSN
-- `apps/widget` - Vapi API keys
-- `packages/backend` - Convex deployment URL
