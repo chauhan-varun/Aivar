@@ -11,7 +11,7 @@ export default defineSchema({
       v.object({
         userAgent: v.optional(v.string()),
         language: v.optional(v.string()),
-        languages: v.optional(v.array(v.string())),
+        languages: v.optional(v.string()),
         platform: v.optional(v.string()),
         vendor: v.optional(v.string()),
         screenresolution: v.optional(v.string()),
@@ -23,7 +23,9 @@ export default defineSchema({
         currentUrl: v.optional(v.string()),
       })
     ),
-  }),
+  })
+    .index('by_organization_id', ['organizationId'])
+    .index('by_expires_at', ['expiresAt']),
   users: defineTable({
     name: v.string(),
   }),

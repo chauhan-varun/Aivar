@@ -2,6 +2,7 @@
 
 import * as React from 'react'
 import { ConvexProvider, ConvexReactClient } from 'convex/react'
+import { Provider } from 'jotai'
 
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL!
 
@@ -11,5 +12,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
   if (!convex) {
     throw new Error('Missing NEXT_PUBLIC_CONVEX_URL in your .env file')
   }
-  return <ConvexProvider client={convex}>{children}</ConvexProvider>
+  return (
+    <ConvexProvider client={convex}>
+      <Providers>{children}</Providers>
+    </ConvexProvider>
+  )
 }
