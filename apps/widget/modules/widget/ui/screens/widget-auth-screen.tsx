@@ -3,19 +3,22 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@workspace/ui/components/form'
 import { Input } from '@workspace/ui/components/input'
+import { Button } from '@workspace/ui/components/button'
 import { WidgetHeader } from '../components/widget-header'
 import { useMutation } from 'convex/react'
 import { api } from '@workspace/backend/_generated/api'
-import { Doc } from '@workspace/backend/_generated/dataModel'
+import { Doc, Id } from '@workspace/backend/_generated/dataModel'
+import { contactSessionAtomFamily, organizationIdAtom } from '../../atoms/widget-atoms'
+import { useAtomValue, useSetAtom } from 'jotai'
 
 const formSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters long'),
   email: z.string().email('Please enter a valid email address'),
 })
 
-const organizationId = 'demo-organization'
-
 export const WidgetAuthScreen = () => {
+  const organizationId = useAtomValue(organizationIdAtom)
+  const setContactSessionId = useSetAtom(contactSessionAtomFamily(organizationId || ''))
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -59,8 +62,7 @@ export const WidgetAuthScreen = () => {
         console.error('Error creating contact session:', error)
         return undefined
       })
-
-    console.log('Contact Session ID:', contactSessionId)
+    setContactSessionId(contactSessionId as Id<'contactStorage'>)
   }
   return (
     <>
@@ -106,9 +108,9 @@ export const WidgetAuthScreen = () => {
               </FormItem>
             )}
           />
-          <button disabled={form.formState.isSubmitting} type="submit">
+          <Button className="w-full" disabled={form.formState.isSubmitting} type="submit">
             Continue
-          </button>
+          </Button>
         </form>
       </Form>
     </>
