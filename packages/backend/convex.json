@@ -1,7 +1,5 @@
 {
   "node": {
-    "externalPackages": [
-      "@clerk/backend"
-    ]
+    "externalPackages": ["@clerk/backend"]
   }
 }
