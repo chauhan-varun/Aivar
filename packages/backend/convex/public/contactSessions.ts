@@ -1,4 +1,4 @@
-import { mutation } from '../_generated/server.js'
+import { mutation, query } from '../_generated/server.js'
 import { v } from 'convex/values'
 
 const SESSION_DURATION_MS = 7 * 24 * 60 * 60 * 1000 // 7 days
@@ -38,7 +38,7 @@ export const create = mutation({
   },
 })
 
-export const validate = mutation({
+export const validate = query({
   args: {
     contactSessionId: v.id('contactSessions'),
   },
@@ -47,7 +47,6 @@ export const validate = mutation({
     if (!contactSession) {
       return { valid: false, reason: 'contact session not found' }
     }
-
     if (contactSession.expiresAt <= Date.now()) {
       return { valid: false, reason: 'contact session expired' }
     }

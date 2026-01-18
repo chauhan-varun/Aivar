@@ -5,8 +5,8 @@ import { useMutation, useQuery } from 'convex/react'
 import { api } from '@workspace/backend/_generated/api'
 
 const TestPage = () => {
-  const add = useMutation(api.users.ad)
-  const user = useQuery(api.users.getMany)
+  const add = useMutation(api.users.addUser)
+  const user = useQuery(api.users.getAllUsers)
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="flex flex-col items-center gap-4">

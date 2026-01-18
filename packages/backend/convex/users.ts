@@ -1,12 +1,12 @@
 import { mutation, query } from './_generated/server.js'
-export const getMany = query({
+export const getAllUsers = query({
   args: {},
   handler: async (ctx) => {
     return await ctx.db.query('users').collect()
   },
 })
 
-export const ad = mutation({
+export const addUser = mutation({
   args: {},
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity()
@@ -16,7 +16,6 @@ export const ad = mutation({
     const ordId = identity.orgId as string
 
     if (!ordId) throw new Error('Organization ID is required')
-    throw new Error('Test error from Convex mutation')
 
     return await ctx.db.insert('users', { name: 'Alice' })
   },

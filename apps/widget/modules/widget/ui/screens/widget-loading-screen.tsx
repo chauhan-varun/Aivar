@@ -10,7 +10,7 @@ import {
 import { LoaderIcon } from 'lucide-react'
 import { useSetAtom } from 'jotai'
 import React, { useEffect } from 'react'
-import { useAction, useMutation } from 'convex/react'
+import { useAction, useQuery } from 'convex/react'
 import { api } from '@workspace/backend/_generated/api'
 
 type InitStep = 'org' | 'session' | 'setting' | 'vapi' | 'done'
@@ -26,7 +26,7 @@ export const WidgetLoadingScreen = ({ organizationId }: { organizationId: string
 
   const contactSessionId = useAtomValue(contactSessionAtomFamily(organizationId || ''))
 
-  // Step 1: Validate Organization ID
+  // Step 1: Validate Organization 
   const validateOrganization = useAction(api.public.organizations.validate)
   useEffect(() => {
     if (step !== 'org') return
@@ -66,30 +66,35 @@ export const WidgetLoadingScreen = ({ organizationId }: { organizationId: string
   ])
 
   // Step 2: Validate Session
-  const validateSession = useMutation(api.public.contactSessions.validate)
+  // useQuery returns data directly (not a function), pass args as second parameter
+  // Use 'skip' to prevent query from running when we don't have a session ID yet
+  const sessionValidationResult = useQuery(
+    api.public.contactSessions.validate,
+    step === 'session' && contactSessionId ? { contactSessionId } : 'skip'
+  )
+  // useEffect 3: Final decision
   useEffect(() => {
     if (step !== 'session') return
 
     setLoadingMessage('Validating session...')
 
+    // No session ID - go straight to auth
     if (!contactSessionId) {
       setSessionValid(false)
       setStep('done')
       return
     }
 
-    setLoadingMessage('Verifying organization...')
+    // Waiting for query result
+    if (sessionValidationResult === undefined) {
+      setLoadingMessage('Verifying session...')
+      return
+    }
 
-    validateSession({ contactSessionId })
-      .then((result) => {
-        setSessionValid(result.valid)
-        setStep('done')
-      })
-      .catch(() => {
-        setSessionValid(false)
-        setStep('done')
-      })
-  }, [step, contactSessionId, setLoadingMessage])
+    // Got result - update state
+    setSessionValid(sessionValidationResult.valid)
+    setStep('done')
+  }, [step, contactSessionId, sessionValidationResult, setLoadingMessage])
 
   useEffect(() => {
     if (step !== 'done') return
