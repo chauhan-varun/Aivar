@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server'
 const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)'])
 const isOrgFreeRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)', '/org-selection(.*)'])
 
-export default clerkMiddleware(async (auth, req) => {
+export const proxy = clerkMiddleware(async (auth, req) => {
   const { userId, orgId } = await auth()
 
   if (!isPublicRoute(req)) {
