@@ -34,7 +34,7 @@ export const WidgetAuthScreen = () => {
       console.error('Organization ID is missing')
       return
     }
-    const metadata: Doc<'contactStorage'>['metadata'] = {
+    const metadata: Doc<'contactSessions'>['metadata'] = {
       userAgent: navigator.userAgent,
       language: navigator.language,
       languages: navigator.languages?.join(', '),
@@ -62,7 +62,7 @@ export const WidgetAuthScreen = () => {
         console.error('Error creating contact session:', error)
         return undefined
       })
-    setContactSessionId(contactSessionId as Id<'contactStorage'>)
+    setContactSessionId(contactSessionId as Id<'contactSessions'> | null)
   }
   return (
     <>

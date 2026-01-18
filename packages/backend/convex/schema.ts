@@ -2,7 +2,7 @@ import { defineSchema, defineTable } from 'convex/server'
 import { v } from 'convex/values'
 
 export default defineSchema({
-  contactStorage: defineTable({
+  contactSessions: defineTable({
     name: v.string(),
     email: v.string(),
     organizationId: v.string(),
