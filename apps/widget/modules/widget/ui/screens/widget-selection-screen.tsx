@@ -67,7 +67,7 @@ export const WidgetSelectionScreen = () => {
           onClick={handleNewConversations}
           disabled={isPending}
         >
-          <div className="flex item-center gap-x-2">
+          <div className="flex items-center gap-x-2">
             <MessageSquareTextIcon className="size-4" />
             <span>Start Chat</span>
           </div>
