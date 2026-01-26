@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, ChevronRightIcon, MenuIcon, MessageSquareTextIcon } from 'lucide-react'
+import { ArrowLeftIcon, MenuIcon } from 'lucide-react'
 import { WidgetHeader } from '../components/widget-header'
 import { Button } from '@workspace/ui/components/button'
 
