@@ -8,15 +8,19 @@ export const WidgetErrorScreen = () => {
   return (
     <div className="flex flex-col h-full">
       <WidgetHeader>
-        <div className="flex flex-col items-center justify-center flex-1 px-4 text-center">
-          <AlertTriangleIcon className="w-12 h-12 mb-4 text-red-500" />
-          <h2 className="mb-2 text-2xl font-semibold text-gray-800">Something went wrong</h2>
-          <p className="text-gray-800">An error occurred while loading the widget.</p>
-          {errorMessage && (
-            <pre className="mt-4 p-2 bg-gray-100 text-red-600 rounded">{errorMessage}</pre>
-          )}
+        <div className="flex flex-col justify-between gap-y-2 px-2 py-6 font-semibold">
+          <p className="text-3xl">Hi There!</p>
+          <p className="text-lg">Let&apos;s get you started</p>
         </div>
       </WidgetHeader>
+      <div className="flex flex-col items-center justify-center flex-1 px-4 text-center">
+        <AlertTriangleIcon className="w-12 h-12 mb-4 text-red-500" />
+        <h2 className="mb-2 text-2xl font-semibold text-gray-800">Something went wrong</h2>
+        <p className="text-gray-800">An error occurred while loading the widget.</p>
+        {errorMessage && (
+          <pre className="mt-4 p-2 bg-gray-100 text-red-600 rounded">{errorMessage}</pre>
+        )}
+      </div>
     </div>
   )
 }

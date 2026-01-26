@@ -1,4 +1,4 @@
-import { mutation } from '../_generated/server.js'
+import { mutation, query } from '../_generated/server.js'
 import { v } from 'convex/values'
 
 const SESSION_DURATION_MS = 7 * 24 * 60 * 60 * 1000 // 7 days
@@ -27,7 +27,7 @@ export const create = mutation({
   handler: async (ctx, args) => {
     const now = Date.now()
     const expiresAt = now + SESSION_DURATION_MS
-    const id = await ctx.db.insert('contactStorage', {
+    const id = await ctx.db.insert('contactSessions', {
       name: args.name,
       email: args.email,
       organizationId: args.organizationId,
@@ -38,16 +38,15 @@ export const create = mutation({
   },
 })
 
-export const validate = mutation({
+export const validate = query({
   args: {
-    contactSessionId: v.id('contactStorage'),
+    contactSessionId: v.id('contactSessions'),
   },
   handler: async (ctx, args) => {
     const contactSession = await ctx.db.get(args.contactSessionId)
     if (!contactSession) {
       return { valid: false, reason: 'contact session not found' }
     }
-
     if (contactSession.expiresAt <= Date.now()) {
       return { valid: false, reason: 'contact session expired' }
     }
