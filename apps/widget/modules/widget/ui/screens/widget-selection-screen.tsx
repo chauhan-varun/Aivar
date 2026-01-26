@@ -55,7 +55,7 @@ export const WidgetSelectionScreen = () => {
   return (
     <div className="flex flex-col h-full">
       <WidgetHeader>
-        <div className="flex flex-col justify-between gay-y-2 px-2 py-6 flex-semibold">
+        <div className="flex flex-col justify-between gap-y-2 px-2 py-6 font-semibold">
           <p className="text-3xl">Hi There!</p>
           <p className="text-lg">Let&apos; get you started</p>
         </div>
