@@ -21,7 +21,7 @@ export const WidgetSelectionScreen = () => {
   const setConversationId = useSetAtom(conversationIdAtom)
   const organizationId = useAtomValue(organizationIdAtom)
   const contactSessionId = useAtomValue(contactSessionAtomFamily(organizationId || ''))
-  const createConversationScreen = useMutation(api.public.conversations.create)
+  const createConversation = useMutation(api.public.conversations.create)
   const [isPending, setIsPending] = useState(false)
 
   const handleNewConversations = async () => {
@@ -39,7 +39,7 @@ export const WidgetSelectionScreen = () => {
     setIsPending(true)
 
     try {
-      const conversationId = await createConversationScreen({
+      const conversationId = await createConversation({
         organizationId,
         contactSessionId,
       })
