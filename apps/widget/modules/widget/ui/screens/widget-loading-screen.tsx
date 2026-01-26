@@ -26,7 +26,7 @@ export const WidgetLoadingScreen = ({ organizationId }: { organizationId: string
 
   const contactSessionId = useAtomValue(contactSessionAtomFamily(organizationId || ''))
 
-  // Step 1: Validate Organization 
+  // Step 1: Validate Organization
   const validateOrganization = useAction(api.public.organizations.validate)
   useEffect(() => {
     if (step !== 'org') return
