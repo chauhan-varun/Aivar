@@ -50,7 +50,7 @@ export const WidgetChatScreen = () => {
           <MenuIcon />
         </Button>
       </WidgetHeader>
-      <div className="flex flex-1 flex-col gap-y-4 p-4">{JSON.stringify(conversations)}</div>
+      <div className="flex flex-1 flex-col gap-y-4 p-4">{JSON.stringify(conversation)}</div>
     </>
   )
 }
