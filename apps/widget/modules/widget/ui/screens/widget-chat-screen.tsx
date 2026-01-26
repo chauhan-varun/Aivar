@@ -19,7 +19,7 @@ export const WidgetChatScreen = () => {
   const organizationId = useAtomValue(organizationIdAtom)
   const contactSessionId = useAtomValue(contactSessionAtomFamily(organizationId || ''))
 
-  const conversations = useQuery(
+  const conversation = useQuery(
     api.public.conversations.getOne,
     conversationId && contactSessionId
       ? {
@@ -28,6 +28,11 @@ export const WidgetChatScreen = () => {
         }
       : 'skip'
   )
+
+  // Handle loading state
+  if (conversation === undefined && conversationId && contactSessionId) {
+    return <div>Loading...</div>
+  }
 
   const onBack = () => {
     setConversationId(null)
