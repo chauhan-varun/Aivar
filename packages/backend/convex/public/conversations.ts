@@ -7,15 +7,24 @@ export const getOne = query({
     contactSessionId: v.id('contactSessions'),
   },
   handler: async (ctx, args) => {
+    const session = await ctx.db.get(args.contactSessionId)
+
+    if (!session || session.expiresAt < Date.now()) {
+      throw new ConvexError({
+        code: 'UNAUTHORIZED',
+        message: 'Contact session is invalid or has expired',
+      })
+    }
+
     const conversation = await ctx.db.get(args.conversationId)
 
     if (!conversation) return null
 
     // Verify the caller owns this conversation
-    if (conversation.contactSessionId !== args.contactSessionId) {
+    if (conversation.contactSessionId !== session._id) {
       throw new ConvexError({
         code: 'UNAUTHORIZED',
-        message: 'You do not have access to this conversation',
+        message: 'Icorrect contact session for this conversation',
       })
     }
 
